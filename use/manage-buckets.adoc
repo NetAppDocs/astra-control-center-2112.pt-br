@@ -1,0 +1,84 @@
+---
+sidebar: sidebar 
+permalink: use/manage-buckets.html 
+keywords: how to set up object storage in astra, how to set up astra buckets, s3, astra, setting up astra control, how to set up astra control center, kubernetes 
+summary: Adicionar fornecedores de bucket do armazenamento de objetos é essencial se você quiser fazer backup das aplicações e do storage persistente, se quiser clonar aplicações entre clusters. 
+---
+= Gerenciar buckets
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/use/
+
+
+Um fornecedor de bucket do armazenamento de objetos é essencial para fazer backup das aplicações e do storage persistente ou para clonar aplicações entre clusters. Usando o Astra Control Center, adicione um provedor de armazenamento de objetos como destino de backup externo para seus aplicativos.
+
+Não é necessário um bucket se estiver clonando a configuração da aplicação e o storage persistente para o mesmo cluster.
+
+Use qualquer um dos seguintes provedores de bucket:
+
+* NetApp ONTAP S3
+* NetApp StorageGRID S3
+* Genérico S3
+
+
+
+NOTE: Embora o Astra Control Center ofereça suporte ao Amazon S3 como um provedor de bucket do Generic S3, o Astra Control Center pode não oferecer suporte a todos os fornecedores de armazenamento de objetos que claim o suporte ao S3 da Amazon.
+
+Você não pode excluir um bucket; no entanto, você pode editá-lo.
+
+Um balde pode estar em um destes estados:
+
+* Pendente: O bucket está programado para descoberta.
+* Disponível: O balde está disponível para uso.
+* Removido: O balde  não está atualmente acessível.
+
+
+Para obter instruções sobre como gerenciar buckets usando a API Astra Control, consulte o link:https://docs.netapp.com/us-en/astra-automation/["Informações de API e automação do Astra"^].
+
+Você pode executar estas tarefas relacionadas ao gerenciamento de buckets:
+
+* link:../get-started/setup_overview.html#add-a-bucket["Adicione um balde"]
+* <<Edite um balde>>
+
+
+
+NOTE: Os buckets do S3 no Astra Control Center não relatam a capacidade disponível. Antes de fazer backup ou clonar aplicativos gerenciados pelo Astra Control Center, verifique as informações do bucket no sistema de gerenciamento ONTAP ou StorageGRID.
+
+
+
+== Remover credenciais
+
+Remova as credenciais do S3 de uma conta a qualquer momento usando a API Astra Control.
+
+Para obter detalhes, https://docs.netapp.com/us-en/astra-automation/index.html["Use a API Astra Control"^] consulte .
+
+
+TIP: O primeiro conjunto de credenciais que você adiciona ao Astra Control está sempre em uso porque o Astra Control usa as credenciais para autenticar o bucket do backup. É melhor não remover essas credenciais.
+
+
+
+== Edite um balde
+
+Você pode alterar as informações de credenciais de acesso para um bucket e alterar se um bucket selecionado é o bucket padrão.
+
+
+NOTE: Quando você adiciona um bucket, selecione o provedor de bucket correto e forneça as credenciais certas para esse provedor. Por exemplo, a IU aceita o NetApp ONTAP S3 como o tipo e aceita credenciais StorageGRID; no entanto, isso fará com que todos os backups e restaurações futuros de aplicativos que usam esse bucket falhem. Consulte link:../release-notes/known-issues.html#selecting-a-bucket-provider-type-with-credentials-for-another-type-causes-data-protection-failures["Notas de versão"].
+
+.Passos
+. Na navegação à esquerda, selecione *baldes*.
+. No menu ações, selecione *Editar*.
+. Altere qualquer informação que não seja o tipo de balde.
++
+
+TIP: Não é possível modificar o tipo de bucket.
+
+. Selecione *Atualizar*.
+
+
+
+
+== Encontre mais informações
+
+* https://docs.netapp.com/us-en/astra-automation/index.html["Use a API Astra Control"^]
+

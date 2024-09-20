@@ -1,0 +1,259 @@
+---
+sidebar: sidebar 
+permalink: get-started/setup_overview.html 
+keywords: set up astra control, setup astra control, setting up Astra Control Center, astra control license, add cluster, import storage, add bucket 
+summary: Depois de instalar o Astra Control Center, fazer login na IU e alterar sua senha, você deseja configurar uma licença, adicionar clusters, gerenciar storage e adicionar buckets. 
+---
+= Configure o Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/get-started/
+
+
+O Astra Control Center dá suporte e monitora o ONTAP e o Astra Data Store como o back-end de storage. Depois de instalar o Astra Control Center, fazer login na IU e alterar sua senha, você deseja configurar uma licença, adicionar clusters, gerenciar storage e adicionar buckets.
+
+.Tarefas
+* <<Adicione uma licença para o Astra Control Center>>
+* <<Adicionar cluster>>
+* <<Adicionar um back-end de storage>>
+* <<Adicione um balde>>
+
+
+
+
+== Adicione uma licença para o Astra Control Center
+
+Você pode adicionar uma nova licença usando a IU ou https://docs.netapp.com/us-en/astra-automation/index.html["API"^] obter a funcionalidade completa do Astra Control Center. Sem licença, seu uso do Astra Control Center se limita ao gerenciamento de usuários e à adição de novos clusters.
+
+.O que você vai precisar
+Quando você baixou o Centro de Controle Astra do https://mysupport.netapp.com/site/products/all/details/astra-control-center/downloads-tab["Site de suporte da NetApp"^], você também baixou o arquivo de licença NetApp (NLF). Certifique-se de que tem acesso a este ficheiro de licença.
+
+
+NOTE: Para atualizar uma avaliação existente ou uma licença completa, link:../use/update-licenses.html["Atualizar uma licença existente"]consulte .
+
+
+
+=== Adicione uma licença completa ou de avaliação
+
+As licenças do Astra Control Center medem recursos de CPU usando unidades de CPU Kubernetes. A licença precisa ter em conta os recursos de CPU atribuídos aos nós de trabalho de todos os clusters do Kubernetes gerenciados. Antes de adicionar uma licença, você precisa obter o arquivo de licença (NLF) do link:https://mysupport.netapp.com/site/products/all/details/astra-control-center/downloads-tab["Site de suporte da NetApp"^].
+
+Você também pode experimentar o Astra Control Center com uma licença de avaliação, que permite usar o Astra Control Center por 90 dias a partir da data em que você baixar a licença. Você pode se inscrever para uma avaliação gratuita registrando link:https://cloud.netapp.com/astra-register["aqui"^]o .
+
+
+NOTE: Se a instalação aumentar para exceder o número licenciado de unidades de CPU, o Astra Control Center impedirá que você gerencie novas aplicações. É apresentado um alerta quando a capacidade é ultrapassada.
+
+.Passos
+. Faça login na IU do Astra Control Center.
+. Selecione *conta* > *Licença*.
+. Selecione *Adicionar licença*.
+. Navegue até o arquivo de licença (NLF) que você baixou.
+. Selecione *Adicionar licença*.
+
+
+A página *Account* > *License* exibe as informações da licença, data de validade, número de série da licença, ID da conta e unidades CPU usadas.
+
+
+NOTE: Se você tiver uma licença de avaliação, certifique-se de armazenar o ID da conta para evitar perda de dados em caso de falha do Astra Control Center se você não estiver enviando ASUPs.
+
+
+
+== Adicionar cluster
+
+Para começar a gerenciar suas aplicações, adicione um cluster do Kubernetes e gerencie-o como um recurso de computação. Você precisa adicionar um cluster para Astra Control Center para descobrir suas aplicações Kubernetes. Para a prévia do Astra Data Store, você deseja adicionar o cluster de aplicações Kubernetes que contém aplicações que estão usando volumes provisionados pela prévia do Astra Data Store.
+
+
+TIP: Recomendamos que o Astra Control Center gerencie o cluster em que ele é implantado primeiro antes de adicionar outros clusters ao Astra Control Center para gerenciar. Ter o cluster inicial sob gerenciamento é necessário enviar dados do Kubemetrics e dados associados ao cluster para métricas e solução de problemas. Você pode usar o recurso *Adicionar cluster* para gerenciar um cluster com o Astra Control Center.
+
+[NOTE]
+====
+Quando o Astra Control gerencia um cluster, ele controla o StorageClass padrão do cluster. Se você alterar o StorageClass usando `kubectl` comandos, o Astra Control reverte a alteração. Para alterar o StorageClass padrão em um cluster gerenciado pelo Astra Control, use um dos seguintes métodos:
+
+* Use o endpoint da API Astra Control `PUT /managedClusters` e atribua um StorageClass padrão diferente com o `DefaultStorageClass` parâmetro
+* Remova o cluster do gerenciamento do Astra Control e adicione-o novamente com um StorageClass padrão diferente selecionado
+
+
+====
+.O que você precisa. 8217
+
+IMPORTANT: Antes de adicionar um cluster, revise e execute o link:add-cluster-reqs.html["tarefas pré-requisitos"^]necessário .
+
+.Passos
+. No *Dashboard* na IU do Astra Control Center, selecione *Add* na seção clusters.
+. Na janela *Add Cluster* que se abre, carregue um `kubeconfig.yaml` ficheiro ou cole o conteúdo de um `kubeconfig.yaml` ficheiro.
++
+
+NOTE: O `kubeconfig.yaml` arquivo deve incluir *somente a credencial de cluster para um cluster*.
+
++
+image:cluster-creds.png["Mostra a tela para carregar kubeconfig.yaml para cluster."]
+
++
+
+IMPORTANT: Se você criar seu próprio `kubeconfig` arquivo, você deve definir apenas *um* elemento de contexto nele. Consulte https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/["Documentação do Kubernetes"^] para obter informações sobre como criar `kubeconfig` arquivos.
+
+. Forneça um nome de credencial. Por padrão, o nome da credencial é preenchido automaticamente como o nome do cluster.
+. Selecione *Configurar armazenamento*.
+. Selecione a classe de armazenamento a ser usada para este cluster do Kubernetes e selecione *Review*.
++
+
+NOTE: Você deve selecionar uma classe de storage do Trident com o suporte do ONTAP Storage ou do Astra Data Store.
+
++
+image:cluster-storage.png["Mostra a classe de armazenamento a ser usada para o cluster."]
+
+. Revise as informações e, se tudo estiver bem, selecione *Adicionar cluster*.
+
+
+.Resultado
+O cluster insere o status *Descobrindo* e, em seguida, muda para *Running*. Você adicionou com sucesso um cluster do Kubernetes e agora o está gerenciando no Astra Control Center.
+
+
+IMPORTANT: Depois de adicionar um cluster a ser gerenciado no Astra Control Center, talvez demore alguns minutos para implantar o operador de monitoramento. Até então, o ícone de notificação fica vermelho e Registra um evento *Falha na verificação do status do agente de monitoramento*. Você pode ignorar isso, porque o problema resolve quando o Astra Control Center obtém o status correto. Se o problema não resolver em alguns minutos, vá para o cluster e execute `oc get pods -n netapp-monitoring` como ponto de partida. Você precisará examinar os logs do operador de monitoramento para depurar o problema.
+
+
+
+== Adicionar um back-end de storage
+
+Você pode adicionar um back-end de storage para que o Astra Control possa gerenciar seus recursos. O gerenciamento de clusters de storage no Astra Control como um back-end de storage permite que você tenha vínculos entre volumes persistentes (PVS) e o back-end de storage, bem como métricas de storage adicionais.
+
+Você pode adicionar um back-end de armazenamento descoberto navegando nos prompts do Dashboard ou do menu backends.
+
+.O que você vai precisar
+* Você tem link:../get-started/setup_overview.html#add-cluster["adicionado um cluster"] e é gerenciado pelo Astra Control.
++
+
+NOTE: O cluster gerenciado tem um back-end anexado a ele, que pode ser descoberto pelo Astra Control.
+
+* Para instalações de visualização do Astra Data Store: Você adicionou o cluster de aplicações Kubernetes.
++
+
+NOTE: Depois de adicionar seu cluster de aplicações Kubernetes para Astra Data Store, o cluster aparece como `unmanaged` na lista de back-ends descobertos. Em seguida, adicione o cluster de computação que contém o Astra Data Store e que está subjacente ao cluster de aplicações Kubernetes. Você pode fazer isso a partir de *backends* na interface do usuário. Selecione o menu ações do cluster, selecione `Manage`, e link:../get-started/setup_overview.html#add-cluster["adicione o cluster"]. Após o estado do cluster `unmanaged` das alterações no nome do cluster do Kubernetes, você pode continuar adicionando um back-end.
+
+
+
+.Passos
+. Execute um dos seguintes procedimentos:
++
+** A partir de *Painel*:
++
+... Na seção de back-end do Dashboard Storage, selecione *Manage*.
+... Na seção Resumo de recursos do Painel > backends de armazenamento, selecione *Adicionar*.
+
+
+** De *backends*:
++
+... Na área de navegação à esquerda, selecione *backends*.
+... Selecione *Gerenciar*.
+
+
+
+
+. Siga um destes procedimentos dependendo do tipo de back-end:
++
+** *Astra Data Store*:
++
+... Selecione a guia *Astra Data Store*.
+... Selecione o cluster de computação gerenciada e selecione *Next*.
+... Confirme os detalhes do back-end e selecione *Manage storage backend*.
+
+
+** *ONTAP*:
++
+... Insira as credenciais de administrador do ONTAP e selecione *Revisão*.
+... Confirme os detalhes do backend e selecione *Manage*.
+
+
+
+
++
+O backend aparece `available` no estado na lista com informações de resumo.
+
+
+
+
+NOTE: Talvez seja necessário atualizar a página para que o backend apareça.
+
+
+
+== Adicione um balde
+
+Adicionar fornecedores de bucket do armazenamento de objetos é essencial para fazer backup das aplicações e do storage persistente ou clonar aplicações entre clusters. O Astra Control armazena os backups ou clones nos buckets do armazenamento de objetos que você define.
+
+Quando você adiciona um bucket, o Astra Control marca um bucket como o indicador padrão do bucket. O primeiro bucket que você criar se torna o bucket padrão.
+
+Não é necessário um bucket se estiver clonando a configuração da aplicação e o storage persistente para o mesmo cluster.
+
+Utilize qualquer um dos seguintes tipos de balde:
+
+* NetApp ONTAP S3
+* NetApp StorageGRID S3
+* Genérico S3
+
+
+
+NOTE: Embora o Astra Control Center ofereça suporte ao Amazon S3 como um provedor de bucket do Generic S3, o Astra Control Center pode não oferecer suporte a todos os fornecedores de armazenamento de objetos que claim o suporte ao S3 da Amazon.
+
+Para obter instruções sobre como adicionar buckets usando a API Astra Control, link:https://docs.netapp.com/us-en/astra-automation/["Informações de API e automação do Astra"^]consulte .
+
+.Passos
+. Na área de navegação à esquerda, selecione *Buckets*.
++
+.. Selecione *Adicionar*.
+.. Selecione o tipo de balde.
++
+
+NOTE: Quando você adiciona um bucket, selecione o provedor de bucket correto e forneça as credenciais certas para esse provedor. Por exemplo, a IU aceita o NetApp ONTAP S3 como o tipo e aceita credenciais StorageGRID; no entanto, isso fará com que todos os backups e restaurações futuros de aplicativos que usam esse bucket falhem.
+
+.. Crie um novo nome de bucket ou insira um nome de bucket existente e uma descrição opcional.
++
+
+TIP: O nome e a descrição do bucket aparecem como um local de backup que você pode escolher mais tarde ao criar um backup. O nome também aparece durante a configuração da política de proteção.
+
+.. Introduza o nome ou endereço IP do endpoint S3.
+.. Se você quiser que esse bucket seja o bucket padrão para todos os backups, marque a `Make this bucket the default bucket for this private cloud` opção.
++
+
+NOTE: Esta opção não aparece para o primeiro bucket criado.
+
+.. Continue adicionando <<Adicionar credenciais de acesso S3,informações de credenciais>>.
+
+
+
+
+
+
+=== Adicionar credenciais de acesso S3
+
+Adicione credenciais de acesso S3 a qualquer momento.
+
+.Passos
+. Na caixa de diálogo baldes, selecione a guia *Adicionar* ou *usar existente*.
++
+.. Insira um nome para a credencial que a distingue de outras credenciais no Astra Control.
+.. Insira a ID de acesso e a chave secreta colando o conteúdo da área de transferência.
+
+
+
+
+
+
+== O que se segue?
+
+Agora que você fez login e adicionou clusters ao Astra Control Center, está pronto para começar a usar os recursos de gerenciamento de dados de aplicações do Astra Control Center.
+
+* link:../use/manage-users.html["Gerenciar usuários"]
+* link:../use/manage-apps.html["Comece a gerenciar aplicativos"]
+* link:../use/protect-apps.html["Proteja aplicativos"]
+* link:../use/clone-apps.html["Clonar aplicações"]
+* link:../use/manage-notifications.html["Gerenciar notificações"]
+* link:../use/monitor-protect.html#connect-to-cloud-insights["Conete-se ao Cloud Insights"]
+* link:../get-started/add-custom-tls-certificate.html["Adicione um certificado TLS personalizado"]
+
+
+[discrete]
+== Encontre mais informações
+
+* https://docs.netapp.com/us-en/astra-automation/index.html["Use a API Astra Control"^]
+* link:../release-notes/known-issues.html["Problemas conhecidos"]
+

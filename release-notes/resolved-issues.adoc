@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: release-notes/resolved-issues.html 
+keywords: astra, control center, fixed bugs, fixes, resolved issues 
+summary: Problemas conhecidos identificam problemas que podem impedi-lo de usar esta versão do produto com sucesso. 
+---
+= Problemas resolvidos
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/release-notes/
+
+
+Estes problemas foram corrigidos nesta versão do produto.
+
+
+
+== Backups extras são mantidos como parte do backup agendado
+
+Às vezes, um ou mais backups no Astra Control Center são retidos além do número especificado para serem retidos no cronograma de backup. Esses backups extras devem ser excluídos como parte de um backup agendado, mas não são excluídos e estão presos em um `pending` estado.
+
+
+
+== Falha de backup ou clone em aplicativos que usam PVCs com unidades decimais no Astra Control Center
+
+Os volumes criados com unidades decimais falham usando o processo de backup ou clone do Astra Control Center.
+
+
+
+== A IU do Astra Control Center fica lenta para mostrar alterações nos recursos da aplicação, como alterações de volume persistente
+
+Após uma operação de proteção de dados (clone, backup, restauração) e subsequente redimensionamento persistente de volume, há até vinte minutos de atraso antes que o novo tamanho de volume seja exibido na IU. Esse atraso na IU também pode ocorrer quando quaisquer recursos do aplicativo são adicionados ou modificados. Nesse caso, uma operação de proteção de dados é bem-sucedida em minutos e você pode usar o software de gerenciamento do back-end de storage para confirmar a alteração no tamanho do volume.
+
+
+
+== Vinculação de função de cluster incorreta criada pela definição de recursos personalizados do Astra Control Center durante a instalação
+
+O patch para corrigir a vinculação de função do cluster durante a instalação não é mais necessário nesta versão.
+
+
+
+== Coleção ASUP presa em um estado de geração ou upload
+
+Se um pod ASUP for interrompido ou reiniciado, uma coleção ASUP pode ficar presa em um estado de geração ou upload.
+
+
+
+== Aplicativos e namespaces implantados pelo operador
+
+Um operador e o aplicativo que ele implanta devem usar o mesmo namespace. O Astra Control é compatível com apenas uma aplicação implantada por operador.
+
+
+
+== Encontre mais informações
+
+* link:../release-notes/known-issues.html["Problemas conhecidos"]
+* link:../release-notes/known-limitations.html["Limitações conhecidas"]
+* link:../release-notes/known-issues-ads.html["Problemas conhecidos com a prévia do Astra Data Store e este lançamento do Astra Control Center"]
+

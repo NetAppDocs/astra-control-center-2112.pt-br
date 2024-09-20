@@ -1,0 +1,113 @@
+---
+sidebar: sidebar 
+permalink: use/manage-users.html 
+keywords: add users, edit users, remove users, delete users 
+summary: Adicione usuários ao seu sistema Astra Control Center e remova usuários que não deveriam mais ter acesso ao sistema. 
+---
+= Gerenciar usuários
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/use/
+
+
+Você pode adicionar, remover e editar usuários da instalação do Astra Control Center usando a IU do Astra Control Center. Você pode usar a IU do Astra ou https://docs.netapp.com/us-en/astra-automation/index.html["API Astra Control"^] gerenciar usuários.
+
+
+
+== Adicionar utilizadores
+
+Os proprietários e administradores de contas podem adicionar mais usuários à instalação do Astra Control Center.
+
+.Passos
+. Na área de navegação *Gerenciar sua conta*, selecione *conta*.
+. Selecione a guia *usuários*.
+. Selecione *Adicionar usuário*.
+. Introduza o nome do utilizador, o endereço de correio eletrónico e uma palavra-passe temporária.
++
+O utilizador terá de alterar a palavra-passe no primeiro início de sessão.
+
+. Selecione uma função de usuário com as permissões de sistema apropriadas.
++
+Cada função fornece as seguintes permissões:
+
++
+** Um *Viewer* pode visualizar recursos.
+** Um *Membro* tem permissões de função Visualizador e pode gerenciar aplicativos e clusters, mas não pode desgerenciar aplicativos ou clusters, nem excluir snapshots ou backups.
+** Um *Admin* tem permissões de função de Membro e pode adicionar e remover quaisquer outros usuários, exceto o proprietário.
+** Um *proprietário* tem permissões de função Admin e pode adicionar e remover quaisquer contas de usuário.
+
+
+. Selecione *Adicionar*.
+
+
+
+
+== Gerenciar senhas
+
+Você pode gerenciar senhas para contas de usuário no Astra Control Center.
+
+
+
+=== Altere a sua palavra-passe
+
+Você pode alterar a senha da sua conta de usuário a qualquer momento.
+
+.Passos
+. Selecione o ícone Utilizador no canto superior direito do ecrã.
+. Selecione *Perfil*.
+. Selecione a lista suspensa *ações* e selecione *alterar senha*.
+. Introduza uma palavra-passe que esteja em conformidade com os requisitos de palavra-passe.
+. Introduza novamente a palavra-passe para confirmar.
+. Selecione *alterar palavra-passe*.
+
+
+
+
+=== Repor a palavra-passe de outro utilizador
+
+Se a sua conta tiver permissões de função de Administrador ou proprietário, você pode redefinir senhas para outras contas de usuário, bem como suas próprias. Ao redefinir uma senha, você atribui uma senha temporária que o usuário terá que alterar ao fazer login.
+
+.Passos
+. Na área de navegação *Gerenciar sua conta*, selecione *conta*.
+. Na guia *usuários*, selecione a lista suspensa na coluna *Estado* para o usuário.
+. Selecione *Redefinir senha*.
+. Introduza uma palavra-passe temporária que esteja em conformidade com os requisitos de palavra-passe.
+. Introduza novamente a palavra-passe para confirmar.
++
+
+NOTE: Da próxima vez que o usuário fizer login, o usuário será solicitado a alterar a senha.
+
+. Selecione *Redefinir senha*.
+
+
+
+
+== Altere a função de um usuário
+
+Os usuários com a função proprietário podem alterar a função de todos os usuários, enquanto os usuários com a função Admin podem alterar a função de usuários que têm a função Admin, Member ou Viewer.
+
+.Passos
+. Na área de navegação *Gerenciar sua conta*, selecione *conta*.
+. Na guia *usuários*, selecione a lista suspensa na coluna *função* para o usuário.
+. Selecione uma nova função e, em seguida, selecione *alterar função* quando solicitado.
+
+
+.Resultado
+O Astra Control Center atualiza as permissões do usuário com base na nova função selecionada.
+
+
+
+== Remover usuários
+
+Os usuários com a função proprietário ou Admin podem remover outros usuários da conta a qualquer momento.
+
+.Passos
+. Na área de navegação *Gerenciar sua conta*, selecione *conta*.
+. Na guia *usuários*, marque a caixa de seleção na linha de cada usuário que você deseja remover.
+. Selecione *ações* e selecione *Remover usuário(s)*.
+. Quando for solicitado, confirme a exclusão digitando a palavra "remover" e selecione *Sim, Remover usuário*.
+
+
+.Resultado
+O Astra Control Center remove o usuário da conta.
